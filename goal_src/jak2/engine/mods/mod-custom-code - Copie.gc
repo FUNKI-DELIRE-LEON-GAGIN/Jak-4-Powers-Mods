@@ -1,0 +1,763 @@
+    ;;-*-Lisp-*-
+    (in-package goal)
+
+    ;; name: mod-custom-code.gc
+    ;; name in dgo: mod-custom-code
+    ;; dgos: TODO
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; What is this file for.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    #| This file contains function defenitions that are pre placed in the mod base,
+    so if you place custom code inside of these functions, it will exectue based on
+    the name of the function, for example, if you place (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+    to the function named runs-on-orb-pickup, then jaks powercell count will increase each time you collect
+    an orb |#
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Begin function defintions.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;; (spawn-actor-by-name "squid-2")  ;; SPAWN UN OBJECT PAR SON NOM D ENTITY
+
+
+
+
+
+(defun music-manager ()
+  (stop-main-music)
+  (case (-> (level-get-target-inside *level*) name)
+    (('test-zone)
+     ;;  (if (> (knuth-rand-int-range 0 15) (+ 8 5))
+     ;;   (play-main-music "SND/music-test-zone.mp3" (the int (-> *setting-control* default music-volume)))
+     ;;   (play-main-music "SND/music-test-zone-track2.mp3" (the int (-> *setting-control* default music-volume))))
+     )
+    ;;Add more cases here for each level
+    (else
+     (play-main-music "" (the int (-> *setting-control* user-current music-volume)
+))
+     ;;(stop-main-music) This function is broken but playing a invalid sound does the same thing
+     ))
+  (none))
+
+(defbehavior music-manager-proc process ()
+  (music-manager)
+  (none))
+
+
+
+
+
+
+(defun spawn-actor-by-name ((name string))
+  (let* ((entity-actor (the entity-actor (entity-by-name name)))
+         (type (-> entity-actor etype))
+         (e-info (entity-info-lookup type)))
+    (when entity-actor
+      (init-entity
+        (get-process *default-dead-pool* type (if e-info (-> e-info heap-size) #x4000))
+        entity-actor
+        process) ;; <- symbole process par défaut
+      (sound-play "buzzer-pickup"))
+    (if (not entity-actor)
+        (sound-play "oof")))
+  (none))
+
+
+
+
+
+
+(defun draw-xyz ((jak target) (x float) (y float) (z float))
+  (set! (-> jak draw color-mult x) x)
+  (set! (-> jak draw color-mult y) y)
+  (set! (-> jak draw color-mult z) z))
+
+(defun draw-normal ((jak target))
+  (draw-xyz jak 1.0 1.0 1.0))
+
+(defun draw-white ((jak target))
+  (draw-xyz jak 10.0 10.0 10.0))
+
+(defun draw-black ((jak target))
+  (draw-xyz jak 0.0 0.0 0.0))
+
+(defun draw-red ((jak target))
+  (draw-xyz jak 3.0 0.0 0.0))
+
+(defun draw-green ((jak target))
+  (draw-xyz jak 0.0 3.0 0.0))
+
+(defun draw-my-blue ((jak target)) ;; Nouveau nom pour éviter le conflit
+  (draw-xyz jak 0.0 0.0 3.0))
+
+
+(defun draw-yellow ((jak target))
+  (draw-xyz jak 3.0 3.0 0.0))
+
+(defun draw-pink ((jak target))
+  (draw-xyz jak 3.0 0.0 3.0))
+
+(defun draw-light-blue ((jak target))
+  (draw-xyz jak 0.0 3.0 3.0))
+
+
+
+
+
+
+
+
+
+    (defun runs-every-frame ()
+      ;; (increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in mod-common-functions.gc
+
+      ;; Sample code to turn jak pink whenever he's doing the jetboard hover glitch
+      ;; (when *target* 
+      ;;   (if (board-hovering?)
+      ;;     (draw-pink *target*)
+      ;;     (draw-normal *target*)
+      ;;     )
+      ;;   )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;;; --------------------------------------------------------------------------------------------------------------
+;;;; TRIANGLE LA MONTURE FLUT FLUT ZOMMER
+;;;; --------------------------------------------------------------------------------------------------------------
+
+;;;;(when (and (cpad-hold? 0 triangle) (cpad-pressed? 0 left)  
+
+;;;;(update-rates!
+ ;;;; (-> *display* entity-clock)
+  ;;;;(seek (-> *display* entity-clock clock-ratio) 1.0 (* 120.0 (seconds-per-frame)))) ;;; ) 0.2 ( LA VITESSE DU TEMPS ENTRE DE BASE 1.0
+
+;;;;  ))
+
+
+
+
+
+(when (and *display* (cpad-hold? 0 triangle) (cpad-pressed? 0 left))
+  (let* ((current-speed (-> *display* entity-clock clock-ratio))
+         (new-speed (- current-speed 0.25))) ;; nouvelle vitesse, toujours -0.25
+
+    (if (<= current-speed 0.0)
+        ;; Si temps à 0 ou moins, on applique directement la vitesse calculée (new-speed)
+        (begin
+          (update-rates! (-> *display* entity-clock) new-speed)
+          (update-rates! (-> *display* bg-clock) new-speed)
+         )
+        ;; Sinon on fait la transition doucement (seek)
+        (update-rates!
+          (-> *display* entity-clock)
+          (seek current-speed new-speed (* 120.0 (seconds-per-frame)))))
+    
+    ;; Mettre aussi à jour bg-clock et target-clock dans ce cas ?
+    (when (> current-speed 0.0)
+      (update-rates! (-> *display* bg-clock) new-speed)
+      )))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(when (and *display* (cpad-hold? 0 triangle) (cpad-pressed? 0 right))
+
+
+ 
+
+  (let* ((current-speed (-> *display* entity-clock clock-ratio))
+         (new-speed (if (< current-speed 0.0)
+                        (- current-speed -0.25)  ; si vitesse < 0 → continue vers 0 (monte vers zéro en négatif)
+                        (+ current-speed 0.25)))) ; sinon accélère le temps normalement
+    (if (>= current-speed 0.0)
+        ;; Si vitesse positive ou nulle, transition douce
+        (begin
+          (update-rates!
+            (-> *display* entity-clock)
+            (seek current-speed new-speed (* 120.0 (seconds-per-frame))))
+          (update-rates! (-> *display* bg-clock) new-speed))
+        ;; Sinon vitesse négative ou moins, applique directement new-speed pour remonter
+        (begin
+          (update-rates! (-> *display* entity-clock) new-speed)
+          (update-rates! (-> *display* bg-clock) new-speed))))
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 triangle) (cpad-pressed? 0 down)  
+
+
+    
+
+    
+
+     
+(update-rates! (-> *display* entity-clock) 1.0)
+(update-rates! (-> *display* bg-clock) 1.0)
+(update-rates! (-> *display* target-clock) 1.0)
+
+    
+
+
+  ))
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 triangle) (cpad-pressed? 0 up)  
+
+
+    
+
+    
+
+     
+  (let* ((current-speed (-> *display* entity-clock clock-ratio))
+         (new-speed (if (< current-speed 0.0)
+                        (- current-speed -0.25)  ; si vitesse < 0 → continue vers 0 (monte vers zéro en négatif)
+                        (+ current-speed 10.25)))) ; sinon accélère le temps normalement
+    (if (>= current-speed 0.0)
+        ;; Si vitesse positive ou nulle, transition douce
+        (begin
+          (update-rates!
+            (-> *display* entity-clock)
+            (seek current-speed new-speed (* 120.0 (seconds-per-frame))))
+          (update-rates! (-> *display* bg-clock) new-speed))
+        ;; Sinon vitesse négative ou moins, applique directement new-speed pour remonter
+        (begin
+          (update-rates! (-> *display* entity-clock) new-speed)
+          (update-rates! (-> *display* bg-clock) new-speed))))
+)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    ;;; JAK SPEED TIME
+
+
+
+   (when (and *display* (cpad-hold? 0 square) (cpad-pressed? 0 left))
+  (let* ((current-speed (-> *display* target-clock clock-ratio))
+         (new-speed (- current-speed 0.25)))
+    (update-rates! (-> *display* target-clock) new-speed)))
+
+(when (and *display* (cpad-hold? 0 square) (cpad-pressed? 0 right))
+  (let* ((current-speed (-> *display* target-clock clock-ratio))
+         (new-speed (+ current-speed 0.25)))
+    (update-rates! (-> *display* target-clock) new-speed)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 x) (cpad-pressed? 0 up)  
+
+
+
+
+
+(when *target*
+  (reset-actors 'play)
+
+
+
+  ))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;;; --------------------------------------------------------------------------------------------------------------
+;;;; POUVOIRE L2
+;;;; --------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 l2) (cpad-pressed? 0 up)  
+
+
+(when *target*
+
+
+(reset-actors 'play)
+
+
+
+
+
+
+  )))
+
+    
+
+
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 l2) (cpad-pressed? 0 down))
+ 
+
+
+
+    (set-blackout-frames (seconds 0.135))
+
+  (when *target*
+    (reset-actors 'play)
+    (set! *spawn-actors* #f)
+
+
+
+
+
+(play-sound-file "REGEN.mp3" 30)
+
+
+
+))
+
+
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 l2) (cpad-pressed? 0 left)
+
+
+
+(when *target*
+(draw-my-blue *target*)
+)
+
+
+
+
+(set-setting! 'process-mask 'set 0.0 (process-mask enemy platform projectile death actor-pause   sleep sleep-code collectable ambient heap-shrunk )) ;crate
+
+
+
+
+ (set! *pause-lock* #f)
+
+
+
+
+
+  
+
+
+
+))
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 l2) (cpad-pressed? 0 right)
+
+
+
+(when *target*
+      (draw-normal *target*) ;; ✅ Jak redevient normal quand le jeu reprend
+)
+
+(set! *spawn-actors* #t)
+
+
+
+
+
+(set-setting! 'process-mask 'clear 0.0 (process-mask enemy platform projectile death   freeze pause menu progress entity movie))
+
+
+
+
+
+
+
+  ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;;; --------------------------------------------------------------------------------------------------------------
+;;;; ECO POUVOIR SPAWN ! R2
+;;;; --------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+(when (and (cpad-hold? 0 r2) (cpad-pressed? 0 down))
+
+
+  (birth-pickup-at-point 
+    (vector+float! (new-stack-vector0) (-> *target* root trans) 0.0)
+    (pickup-type eco-yellow)
+    1.0
+    #f
+    *target*
+    (the-as fact-info #f)
+
+
+  )
+)
+
+
+
+
+
+(when (and (cpad-hold? 0 r2) (cpad-pressed? 0 left))
+
+
+  (birth-pickup-at-point 
+    (vector+float! (new-stack-vector0) (-> *target* root trans) 0.0)
+    (pickup-type eco-blue)
+    1.0
+    #f
+    *target*
+    (the-as fact-info #f)
+
+    
+  )
+)
+
+
+
+
+
+
+
+
+(when (and (cpad-hold? 0 r2) (cpad-pressed? 0 up))
+
+
+  (birth-pickup-at-point 
+    (vector+float! (new-stack-vector0) (-> *target* root trans) 0.0)
+    (pickup-type eco-red)
+    1.0
+    #f
+    *target*
+    (the-as fact-info #f)
+
+    
+  )
+)
+
+
+
+
+
+(when (and (cpad-hold? 0 r2) (cpad-pressed? 0 right))
+
+
+  (send-event *target* 'reset-pickup 'eco)
+
+
+  (birth-pickup-at-point 
+    (vector+float! (new-stack-vector0) (-> *target* root trans) 0.0)
+    (pickup-type eco-green)
+    1.0
+    #f
+    *target*
+    (the-as fact-info #f)
+
+
+
+
+    
+  )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      (if *show-input-display* 
+        (input-display-on)
+        (input-display-off)
+        )
+
+      (when *debug-segment*
+        (orb-placer-maintenance)
+        )
+      
+      (none)
+      )
+
+    (defun runs-on-gem-pickup ()
+      ;; Code here runs on any scout fly pickup
+
+      (none)
+      )
+
+    (defun runs-on-task-close ()
+    
+
+      (none)
+      )
+
+    (defun runs-on-eco-pickup ((eco-type pickup-type) (parent process-tree))
+      (let* ((from-vent? #f))
+        ;; Code here runs as soon as you pickup ANY eco
+
+        (case eco-type
+          (((pickup-type eco-yellow))      
+            ;; Code here runs as soon as you pickup yellow eco
+
+            )
+          (((pickup-type eco-red))      
+            ;; Code here runs as soon as you pickup red eco
+
+            )
+          (((pickup-type eco-blue))      
+            ;; Code here runs as soon as you pickup blue eco
+
+            )
+
+          (((pickup-type eco-green))      
+            ;; Code here runs as soon as you pickup big green eco 
+
+            )
+          )
+        
+        (when from-vent?
+          ;; Code here runs only if the eco was picked up from a vent
+
+          )
+        )
+
+      (none)
+      )
+
+    (defun runs-on-jak-spawn ()
+      ;; Code here runs every time jak spawns (loading a file new game or death)   
+
+      (none)
+      )
+
+    (defun runs-on-jak-death ((death-event symbol))
+      (case death-event
+        (('dying)
+          ;; Code here runs immediately every time jak dies, before any death animation or death cutscene
+          
+          )
+       
+        )
+      
+      (none)
+      )
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; deprecated function defintions.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    #| these are no longer recommended/supported however we include them anyways to not break anyones mods.
+    |#

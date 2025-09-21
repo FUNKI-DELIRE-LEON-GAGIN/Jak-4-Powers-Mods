@@ -1,0 +1,351 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: ctywide-speech.gc
+;; name in dgo: ctywide-speech
+;; dgos: CWI
+
+;; DECOMP BEGINS
+
+(defun restore-city-speeches ()
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-1)
+    (new 'static 'speech-type-info
+      :priority -10
+      :min-delay (seconds 8)
+      :max-delay (seconds 20)
+      :list (new 'static 'boxed-array :type string
+        "kg017a" "kg023" "kg042" "kg068" "kg091" "kg112" "kg137" "kg156"
+        "kg178a" "kg203a" "kg224a" "kg247" "kg265a" "kg289a" "kg312a" "kg334"
+        "kg356" "kg378a" "kg399" "kg421a" "kg022a" "kg045a" "kg067a" "kg089"
+        "kg134" "kg167" "kg189" "kg212a" "kg234" "kg256a" "kg278" "kg301a"
+        "kg007a" "kg010" "kg015" "kg030" "kg031" "kg032" "kg033" "kg007"
+        "kg035a" "kg033a" "kg121a" "kg034" "kg030a" "kg031a" "kg034a" "kg128a"
+        "kg035" "kg032a" "kg038" "kg129a" "kg041a" "kg042a" "kg043a" "kg121"
+        "kg125" "kg124" "kg128" "kg125a" "kg129" "kg131" "kg124a" "kg131a"
+        "kg002a" "kg014a" "kg026a" "kg050a" "kg074a" "kg098a" "kg110a" "kg146a"
+        "kg170a" "kg194a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-2)
+    (new 'static 'speech-type-info
+      :priority 3
+      :request-timeout #x12c
+      :min-delay (seconds 8)
+      :max-delay (seconds 20)
+      :list (new 'static 'boxed-array :type string
+        "kg056a" "kg078a" "kg101a" "kg123a" "kg145a" "kg167a" "kg189a"
+        "kg044a" "kg045a" "kg046a" "kg047a" "kg048a" "kg049a" "kg050a"
+        "kg013a" "kg025a" "kg037a" "kg061a" "kg073a" "kg085a" "kg097a"
+        "kg109a" "kg133a" "kg157a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-3)
+    (new 'static 'speech-type-info
+      :priority 3
+      :request-timeout #x12c
+      :min-delay (seconds 1)
+      :max-delay (seconds 1)
+      :list (new 'static 'boxed-array :type string
+        "kg034" "kg057a" "kg079a" "kg102" "kg124a" "kg146a" "kg168a" "kg190a"
+        "kg213a" "kg235a" "kg070" "kg071a" "kg072a" "kg077" "kg073a" "kg074a"
+        "kg070a" "kg075a" "kg076a" "kg077a" "kg008a" "kg020a" "kg032a" "kg044a"
+        "kg068a" "kg080a" "kg092a" "kg104a" "kg116a" "kg140a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-4)
+    (new 'static 'speech-type-info
+      :min-delay (seconds 3)
+      :max-delay (seconds 8)
+      :list (new 'static 'boxed-array :type string
+        "kg012a" "kg045" "kg067" "kg089a" "kg112a" "kg134a" "kg156a" "kg178a"
+        "kg201a" "kg223a" "kg245a" "kg267a" "kg289a" "kg312a" "kg334a" "kg356a"
+        "kg378" "kg401a" "kg423a" "kg098a" "kg120a" "kg029a" "kg036" "kg037"
+        "kg051a" "kg052a" "kg053a" "kg037a" "kg054a" "kg055a" "kg056a" "kg036a"
+        "kg057a" "kg058a" "kg059a" "kg060a" "kg061a" "kg029" "kg062a" "kg063a"
+        "kg064a" "kg113a" "kg003a" "kg015a" "kg027a" "kg039a" "kg051a" "kg075a"
+        "kg087a" "kg099a" "kg111a" "kg123a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-5)
+    (new 'static 'speech-type-info
+      :flags (speech-type-flag random-order)
+      :priority 5
+      :request-timeout #x12c
+      :min-delay (seconds 1)
+      :max-delay (seconds 1)
+      :list (new 'static 'boxed-array :type string
+        "kg023a" "kg045a" "kg067a" "kg089a" "kg112a" "kg134a" "kg065a" "kg066a"
+        "kg069" "kg067a" "kg068a" "kg069a" "kg004a" "kg016a" "kg028a" "kg040a"
+        "kg052a" "kg064a" "kg076a" "kg088a" "kg100a" "kg114a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-6)
+    (new 'static 'speech-type-info
+      :flags (speech-type-flag random-order)
+      :min-delay (seconds 2)
+      :max-delay (seconds 4)
+      :list (new 'static 'boxed-array :type string
+        "kg001" "kg013" "kg025" "kg037" "kg049a" "kg061" "kg073" "kg085"
+        "kg097" "kg109" "kg121" "kg133" "kg145" "kg157a" "kg169a" "kg181a"
+        "kg193a" "kg205a" "kg217a" "kg229a" "kg241a" "kg253a" "kg265a" "kg277a"
+        "kg289a" "kg301a" "kg313a" "kg325a" "kg337a" "kg349a" "kg361a" "kg373a"
+        "kg385" "kg397" "kg409" "kg421" "kg008a" "kg020a" "kg032a" "kg044a"
+        "kg056a" "kg068a" "kg080a" "kg092a" "kg104a" "kg002" "kg004" "kg006"
+        "kg001a" "kg016" "kg018" "kg019" "kg020" "kg023" "kg024" "kg002a"
+        "kg004a" "kg078a" "kg079a" "kg080a" "kg081a" "kg082a" "kg083a" "kg084a"
+        "kg085a" "kg086a" "kg087a" "kg088a" "kg091a" "kg023a" "kg006a" "kg092a"
+        "kg020a" "kg093a" "kg094a" "kg005a" "kg095a" "kg103a" "kg112a" "kg024a"
+        "kg134" "kg136" "kg137" "kg138" "kg139" "kg140" "kg141" "kg007a" "kg010a"
+        "kg015a" "kg030a" "kg031a" "kg032a" "kg033a" "kg034a" "kg035a" "kg038a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-7)
+    (new 'static 'speech-type-info
+      :flags (speech-type-flag random-order)
+      :min-delay (seconds 2)
+      :max-delay (seconds 4)
+      :list (new 'static 'boxed-array :type string
+        "kg002" "kg014" "kg026a" "kg038" "kg050a" "kg062" "kg074" "kg086"
+        "kg098a" "kg110" "kg122a" "kg134" "kg146a" "kg158" "kg170a" "kg182"
+        "kg194a" "kg206" "kg218a" "kg005" "kg008" "kg008a" "kg011" "kg011a"
+        "kg021" "kg022" "kg025" "kg025a" "kg026" "kg027" "kg027a" "kg028"
+        "kg028a" "kg039" "kg039a" "kg040" "kg040a" "kg009a" "kg013a" "kg016a"
+        "kg019a" "kg020a" "kg023a" "kg024a" "kg029a" "kg032a" "kg036a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-8)
+    (new 'static 'speech-type-info
+      :min-delay (seconds 2)
+      :max-delay (seconds 4)
+      :list (new 'static 'boxed-array :type string
+        "kg301a" "kg303a" "kg305a" "kg307a" "kg309a" "kg311a" "kg313a" "kg315a"
+        "kg317a" "kg319a" "kg321a" "kg323a" "kg325a" "kg327a" "kg329a" "kg331a"
+        "kg333a" "kg335a" "kg337a" "kg339a" "kg300a" "kg302a" "kg304a" "kg306a"
+        "kg308a" "kg310a" "kg312a" "kg314a" "kg316a" "kg318a" "kg320a" "kg322a"
+        "kg324a" "kg326a" "kg328a" "kg330a" "kg332a" "kg334a" "kg336a" "kg338a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-9)
+    (new 'static 'speech-type-info
+      :priority 1
+      :min-delay (seconds 2)
+      :max-delay (seconds 4)
+      :list (new 'static 'boxed-array :type string
+        "kg003" "kg015" "kg027" "kg039" "kg051" "kg063" "kg075" "kg014" "kg153"
+        "kg135" "kg142" "kg144" "kg145" "kg150" "kg004" "kg016" "kg028" "kg040"
+        "kg052" "kg064" "kg076"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-10)
+    (new 'static 'speech-type-info
+      :flags (speech-type-flag random-order)
+      :priority 10
+      :request-timeout #x258
+      :min-delay (seconds 2)
+      :max-delay (seconds 4)
+      :list (new 'static 'boxed-array :type string
+        "kg004" "kg016" "kg028a" "kg040" "kg052" "kg064" "kg076" "kg088"
+        "kg100" "kg113" "kg125" "kg137" "kg149" "kg161a" "kg173a" "kg185a"
+        "kg197" "kg209a" "kg221a" "kg233a" "kg245a" "kg257a" "kg269a" "kg281a"
+        "kg293a" "kg305a" "kg317a" "kg329a" "kg341a" "kg353a" "kg365a" "kg377a"
+        "kg389" "kg401a" "kg413a" "kg425a" "kg008" "kg020a" "kg032a" "kg044a"
+        "kg056a" "kg068a" "kg080a" "kg092a" "kg104a" "kg009" "kg132" "kg132a"
+        "kg133" "kg146" "kg147" "kg148" "kg149" "kg151" "kg152" "kg153" "kg154"
+        "kg159" "kg165" "kg165a" "kg165b" "kg166" "kg166a" "kg166b" "kg167"
+        "kg167a" "kg167b" "kg168" "kg168a" "kg168b" "kg169" "kg169a" "kg169b"
+        "kg170" "kg170a" "kg170b" "kg171" "kg171a" "kg171b" "kg172" "kg172a"
+        "kg172b" "kg173" "kg173a" "kg173b" "kg236a" "kg236b" "kg237a" "kg237b"
+        "kg238a" "kg239a" "kg239b" "kg240a" "kg005a" "kg017a" "kg029a" "kg041a"
+        "kg053a" "kg065a" "kg077a" "kg089a" "kg101a" "kg113a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-11)
+    (new 'static 'speech-type-info
+      :priority 2
+      :min-delay (seconds 0.1)
+      :max-delay (seconds 0.1)
+      :list (new 'static 'boxed-array :type string
+        "kg005a" "kg017a" "kg029a" "kg041a" "kg053a" "kg065a" "kg077a" "kg089a"
+        "kg101a" "kg114a" "kg126a" "kg138a" "kg150a" "kg162a" "kg174a" "kg186a"
+        "kg198a" "kg210a" "kg222a" "kg234a" "kg246a" "kg258a" "kg270a" "kg282a"
+        "kg294a" "kg306a" "kg318a" "kg330a" "kg342a" "kg354a" "kg366a" "kg378a"
+        "kg390a" "kg402a" "kg414a" "kg426a" "kg428a" "kg006a" "kg018a" "kg030a"
+        "kg042a" "kg054a" "kg066a" "kg078a" "kg090a" "kg386a" "kg387a" "kg388a"
+        "kg389a" "kg390a" "kg391a" "kg392a" "kg393a" "kg394a" "kg395a" "kg396a"
+        "kg397a" "kg398a" "kg399a" "kg400a" "kg401a" "kg402a" "kg403a" "kg404a"
+        "kg405a" "kg406a" "kg407a" "kg408a" "kg409a" "kg410a" "kg411a" "kg412a"
+        "kg413a" "kg414a" "kg415a" "kg416a" "kg417a" "kg418a" "kg419a" "kg420a"
+        "kg421a" "kg422a" "kg423a" "kg424a" "kg425a" "kg426a" "kg427a" "kg428a"
+        "kg089a" "kg002a" "kg014a" "kg026a" "kg038a" "kg050a" "kg062a" "kg074a"
+        "kg086a" "kg098a" "kg110a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-12)
+    (new 'static 'speech-type-info
+      :priority 5
+      :min-delay (seconds 1)
+      :max-delay (seconds 1)
+      :list (new 'static 'boxed-array :type string
+        "kg001a" "kg013a" "kg025a" "kg037a" "kg049a" "kg061a" "kg073a" "kg085a"
+        "kg097a" "kg109a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-13)
+    (new 'static 'speech-type-info
+      :priority 10
+      :min-delay (seconds 1)
+      :max-delay (seconds 1)
+      :list (new 'static 'boxed-array :type string
+        "kg007" "kg019a" "kg031" "kg012" "kg012a" "kg176" "kg002" "kg014" "kg026"
+        "kg038" "kg050"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-14)
+    (new 'static 'speech-type-info
+      :priority 10
+      :min-delay (seconds 1)
+      :max-delay (seconds 1)
+      :list (new 'static 'boxed-array :type string
+        "kg009a" "kg021a" "kg033a" "kg387a" "kg396a" "kg399a" "kg003a" "kg015a"
+        "kg027a" "kg039a" "kg051a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-16)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :flags (speech-type-flag random-order)
+      :min-delay (seconds 3)
+      :max-delay (seconds 7)
+      :list (new 'static 'boxed-array :type string
+        "cit099" "cit099a" "cit099b" "cit100" "cit100a" "cit101" "cit101a" "cit101b"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-19)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :flags (speech-type-flag random-order)
+      :priority 2
+      :min-delay (seconds 1)
+      :max-delay (seconds 2)
+      :list (new 'static 'boxed-array :type string
+        "cit097" "cit097a" "cit097b" "cit098" "cit098a" "cit098b"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-20)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :min-delay (seconds 5)
+      :max-delay (seconds 15)
+      :list (new 'static 'boxed-array :type string
+        "cit099" "cit099a" "cit099b" "cit100" "cit100a" "cit100b" "cit101" "cit101a" "cit101b"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-22)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :flags (speech-type-flag random-order)
+      :priority 1
+      :min-delay (seconds 1)
+      :max-delay (seconds 2)
+      :list (new 'static 'boxed-array :type string
+        "cit001" "cit004" "cit008" "cit010" "cit016" "cit033" "cit034" "cit035"
+        "cit046" "cit047" "cit051" "cit053" "cit055" "cit056" "cit057" "cit058"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-24)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :flags (speech-type-flag random-order)
+      :min-delay (seconds 3)
+      :max-delay (seconds 7)
+      :list (new 'static 'boxed-array :type string
+        "cit099c" "cit099d" "cit100c" "cit101c" "cit103" "cit103a" "cit104" "cit104a"
+        "cit105" "cit120" "cit120a"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-27)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :flags (speech-type-flag random-order)
+      :priority 2
+      :min-delay (seconds 1)
+      :max-delay (seconds 2)
+      :list (new 'static 'boxed-array :type string
+        "cit097c" "cit097d" "cit098c" "cit098d" "cit099c" "cit098d"
+        )
+      )
+    )
+  (speech-table-set!
+    *speech-control*
+    (speech-type speech-type-28)
+    (new 'static 'speech-type-info
+      :channel #x1
+      :min-delay (seconds 5)
+      :max-delay (seconds 15)
+      :list (new 'static 'boxed-array :type string
+        "cit099c" "cit099d" "cit100c" "cit101c" "cit103" "cit103a" "cit104" "cit104a"
+        "cit105" "cit120" "cit120a"
+        )
+      )
+    )
+  (none)
+  )
